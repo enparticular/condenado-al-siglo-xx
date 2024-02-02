@@ -10,10 +10,10 @@ if (window.location.href.includes('debug')) {
 const load_speed = 500; // speed to load scenes
 const text_speed = 70; // speed to write text
 
-let breakpoint_counter_1 = 5; // music loop 1 starts
-let breakpoint_counter_2 = 10; // night desert - music loop 2 starts 
-let breakpoint_counter_3 = 15; // snake appears
-let breakpoint_counter_4 = 20; // ending 
+let breakpoint_counter_1 = 3; // music loop 1 starts
+let breakpoint_counter_2 = 6; // night desert - music loop 2 starts 
+let breakpoint_counter_3 = 7; // snake appears
+let breakpoint_counter_4 = 15; // ending 
 let breakpoint_counter_corrupted = 30; // CORRUPTED GAME
 let breakpoint_counter_corrupted_computer = 38; // CORRUPTED GAME w ENDING
 
@@ -38,7 +38,7 @@ let text_box = document.querySelector('.text-box');
 let hover_text = document.querySelector('.hover-text');
 let house_text = document.querySelector('.house-text');
 let fade_in = '<div class="fade-in"></div>';
-
+ 
 var f = 0;
 
 function showScene(scene) {
