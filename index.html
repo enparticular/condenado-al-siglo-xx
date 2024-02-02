@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="manifest" href="site.webmanifest">
+
+    <title>CONDENADO AL SIGLO XX</title>
+
+    <link rel="stylesheet" href="./style.css">
+    <link rel="icon" href="./favicon.ico" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <!-- js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.4/howler.min.js"></script>
+    
+    
+  </head>
+  <body>
+    <div id="background">
+        <div id="mobile">
+          <img src="img/title.jpg" class="title"/>
+          <p>Este juego fue diseñado para jugar en computadoras de escritorio o laptops. Por favor acceda a esta página en su computadora para continuar.</p>
+          <p class="small">Disculpen las molestias. <br/> En el mundo de Antolín no existen los celulares.</p>
+        </div>
+        <div id="game">
+            <div class="loading">
+              <p>Cargando, por favor espere..</p>
+              <div class="loading-bar"><div class="bar" id="bar"></div> </div>
+            </div>
+
+            <div class="main-box" style="display: none;">
+               <img onclick="showScene(house)" src="img/intro.jpg" class="intro "/>
+            </div>
+
+            <div class="text-box" id="text-replace">
+                
+            </div>
+            <p class="house-text"></p>
+            <p class="hover-text"></p>
+        </div>
+        <div class="credits-wrapper">
+          <p>Este videojuego forma parte del álbum musical "Condenado al Siglo XX", grabado en 2024 entre la ciudad de Neuquén y la ciudad de Buenos Aires. Disponible para escuchar en distintas plataformas como <a href="https://open.spotify.com/artist/0TRf2N849pjTs7BUpRUUl3?si=QfXtChGNRVeNIohpQ1mn8A">Spotify</a> y <a href="https://youtube.com/channel/UCichqkxjSu5UnFXFMYt5qeA?si=y_oeQEKbqN--KKS0">YouTube</a> así como los demás albums de Antolín.</p>
+          <a onclick="showCredits()" class="view-credits">Ver Créditos</a>
+          <div class="credits">
+             <br/>
+            Idea, textos y dibujos: Antolín Olgiatti<br/>
+            Programación, música y sonidos: Ezequiel Rivero. <br/>
+            Diagramado, ideas y testing: Gervasio Della Ratta. 
+           </div>
+        </div>
+    </div>
+
+    <script src="data.js" ></script>
+    <script src="data-corrupted.js" ></script>
+    <script src="data-audio.js" ></script>
+	  <script src="index.js" ></script>
+
+  </body>
+</html>
