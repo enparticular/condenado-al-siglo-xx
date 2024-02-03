@@ -7,15 +7,15 @@ if (window.location.href.includes('debug')) {
 }
 
 // constants 
-const load_speed = 500; // speed to load scenes
-const text_speed = 70; // speed to write text
+const load_speed = 600; // speed to load scenes
+const text_speed = 80; // speed to write text
 
 let breakpoint_counter_1 = 3; // music loop 1 starts
 let breakpoint_counter_2 = 6; // night desert - music loop 2 starts 
 let breakpoint_counter_3 = 7; // snake appears
-let breakpoint_counter_4 = 15; // ending 
-let breakpoint_counter_corrupted = 30; // CORRUPTED GAME
-let breakpoint_counter_corrupted_computer = 38; // CORRUPTED GAME w ENDING
+let breakpoint_counter_4 = 12; // ending 
+let breakpoint_counter_corrupted = 22; // CORRUPTED GAME
+let breakpoint_counter_corrupted_computer = 28; // CORRUPTED GAME w ENDING
 
 if (debug_mode) {
     breakpoint_counter_1 = 3; // music loop 1 starts
@@ -81,17 +81,17 @@ function showScene(scene) {
                 house_text.innerHTML = house_text_arr[4];
             } else if (counter > breakpoint_counter_3) { 
                 house_text.innerHTML = house_text_arr[3];
-            } else if (counter > breakpoint_counter_2) {
-                house_text.innerHTML = house_text_arr[2];
                 if (!loop2_faded) { 
-                    audio.loop2.fade(0, 0.3, 8000)
+                    audio.loop2.fade(0, 0.3, 15000)
                     loop2_faded = true; 
                 };
+            } else if (counter > breakpoint_counter_2) {
+                house_text.innerHTML = house_text_arr[2];
             } else if (counter > breakpoint_counter_1 ) {
                 if (!audio.loop1.playing()) {
                     audio.loop1.play();
                     audio.loop2.play();
-                    audio.loop1.fade(0, 0.3, 8000);
+                    audio.loop1.fade(0, 0.3, 12000);
                 }
                 house_text.innerHTML = house_text_arr[1];
             } else if (counter <= breakpoint_counter_1 ) {
@@ -128,10 +128,13 @@ function showScene(scene) {
 
             main_box.insertAdjacentHTML('afterbegin', scene.main_html);
             setTimeout(() => {audio.loop2.play()
-                audio.loop2.fade(0, 0.5, 23000);
+                audio.loop2.fade(0, 0.2, 43000);
                 audio.loop2_corrupted.play();
-                audio.loop2_corrupted.fade(0, 0.1, 28000);
-            }, 5000)
+                audio.loop2_corrupted.fade(0, 0.15, 78000);
+            }, 12000)
+
+            setTimeout(() => { house_text.insertAdjacentHTML('afterbegin', '<p style="text-align: center;">(fin)</p>')}, 40000
+            );
             
 
         }, load_speed);
@@ -263,7 +266,6 @@ function stopAllAudio(){
 function showCredits() { 
     document.querySelector('.credits').classList.add('open');
 }
-
 
 // utility functions 
 function fadeIn() {
