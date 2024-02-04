@@ -5,7 +5,6 @@ if (window.location.href.includes('debug')) {
     console.warn("####### DEBUG MODE TRUE #######")
     debug_mode = true;
 }
-
 // constants 
 const load_speed = 600; // speed to load scenes
 const text_speed = 80; // speed to write text
@@ -43,12 +42,8 @@ var f = 0;
 
 function showScene(scene) {
  
-    if (started == false) {
-        // init game
-        document.querySelector('.credits-wrapper').style.display = "none";
-        audio.audio_desert.play();
-        audio.audio_desert.fade(0, 0.3, 6000)
-        started = true;
+    if (started == false) { 
+        startGame(); 
     } else {
         audio.click.play();
     }
@@ -59,176 +54,113 @@ function showScene(scene) {
     removeAllChildNodes(text_box);
     removeAllChildNodes(hover_text);
     removeAllChildNodes(house_text);
-
-    if (scene.is_house) {
-        // conditions for ending
-        if (scene.is_corrupted) { 
-             console.warn('scene_is_corrupted')
-             if (!audio.loop1_corrupted.playing() ) {
-                stopAllAudio();
-                audio.loop1_corrupted.play();
-                audio.loop2_corrupted.play();
-            }
-        }  
-
-        // conditions for normal house
-        if (!scene.is_corrupted) {
-            fadeIn(); 
-            // main screen
-
-            // define text and music changes 
-            if (counter > breakpoint_counter_4) {
-                house_text.innerHTML = house_text_arr[4];
-            } else if (counter > breakpoint_counter_3) { 
-                house_text.innerHTML = house_text_arr[3];
-                if (!loop2_faded) { 
-                    audio.loop2.fade(0, 0.3, 15000)
-                    loop2_faded = true; 
-                };
-            } else if (counter > breakpoint_counter_2) {
-                house_text.innerHTML = house_text_arr[2];
-            } else if (counter > breakpoint_counter_1 ) {
-                if (!audio.loop1.playing()) {
-                    audio.loop1.play();
-                    audio.loop2.play();
-                    audio.loop1.fade(0, 0.3, 12000);
+    
+    switch (true) {
+        case scene.is_house:
+            if (scene.is_corrupted) {
+                console.warn('scene_is_corrupted')
+                if (!audio.loop1_corrupted.playing() ) {
+                    stopAudiowithFade(false);
+                    audio.loop1_corrupted.play();
+                    audio.loop2_corrupted.play();
                 }
-                house_text.innerHTML = house_text_arr[1];
-            } else if (counter <= breakpoint_counter_1 ) {
-                house_text.innerHTML = house_text_arr[0];
+            } else {
+                showHouseTextandAudio();
             }
-        }   
+            text_box.style.display = "none;"
+            house_text.style.display = "block;"
 
+            main_box.insertAdjacentHTML('afterbegin', scene.main_html);
 
-        text_box.style.display = "none;"
-        house_text.style.display = "block;"
+            let links = document.querySelectorAll('a.link');
 
-        main_box.insertAdjacentHTML('afterbegin', scene.main_html);
+            links.forEach(function(link) {
+                let text = link.getAttribute('text-description');
 
-        let links = document.querySelectorAll('a.link');
-
-        links.forEach(function(link) {
-            let text = link.getAttribute('text-description');
-
-            link.addEventListener('mouseover', function() {
-                hover_text.style.display = "block"
-                hover_text.innerHTML = text;
+                link.addEventListener('mouseover', function() {
+                    hover_text.style.display = "block"
+                    hover_text.innerHTML = text;
+                })
+                link.addEventListener('mouseout', function() { 
+                    hover_text.style.display = "none";
+                })
+                
             })
-            link.addEventListener('mouseout', function() { 
-                hover_text.style.display = "none";
-            })
-            
-        })
-    } else if (scene.is_computer) {
-        // final ending
-        setTimeout(() => {
+        break;
+        // COMPUTER --- final ending
+        case scene.is_computer :
+                        // 
+                setTimeout(() => {
 
-            fadeIn(); 
-            stopAllAudio();
+                    fadeIn(); 
+                    stopAudiowithFade(false);
 
-            main_box.insertAdjacentHTML('afterbegin', scene.main_html);
-            setTimeout(() => {audio.loop2.play()
-                audio.loop2.fade(0, 0.2, 43000);
-                audio.loop2_corrupted.play();
-                audio.loop2_corrupted.fade(0, 0.15, 78000);
-            }, 12000)
+                    main_box.insertAdjacentHTML('afterbegin', scene.main_html);
+                    setTimeout(() => {audio.loop2.play()
+                        audio.loop2.fade(0, 0.2, 43000);
+                        audio.loop2_corrupted.play();
+                        audio.loop2_corrupted.fade(0, 0.15, 78000);
+                    }, 12000)
 
-            setTimeout(() => { house_text.insertAdjacentHTML('afterbegin', '<p style="text-align: center;">(fin)</p>')}, 40000
-            );
-            
-
-        }, load_speed);
-
-    } else if (scene.snake) {
-        
-        setTimeout(() => {
-
-            fadeIn(); 
-            fadeAllAudio();
-            
-
-            main_box.insertAdjacentHTML('afterbegin', scene.main_html);
-
-            let picked_phrase = "Fuiste picado por una serpiente venenosa."
-        
-            setTimeout(() => { 
-                printLetterByLetter('text-replace', picked_phrase, text_speed);
-            }, load_speed);
-    
-            setTimeout(() => { house_text.insertAdjacentHTML('afterbegin', '<a class="end" onclick="location.reload()">¿Volver a empezar?</a>')}, 4000
-            );
-
-        }, load_speed);
-    } else if (scene.ending) { 
-        console.warn("scene ending");
-        setTimeout(() => {
-
-            fadeIn(); 
-            fadeAllAudio();
-
-            main_box.insertAdjacentHTML('afterbegin', scene.main_html);
-
-            let picked_phrase = "¡FELICITACIONES! LOGRASTE SONDEAR LA ESPESURA DE LA NADA."
-        
-            setTimeout(() => { 
-                printLetterByLetter('text-replace', picked_phrase, text_speed);
-            }, load_speed);
-    
-            setTimeout(() => { house_text.insertAdjacentHTML('afterbegin', '<a class="end" onclick="location.reload()">¿Volver a empezar?</a>')}, 6000
-            );
-
-        }, load_speed);
-
-    } 
-    else {
-        // general scenes
-        if (!scene.is_corrupted) {
-            audio.swosh.play();
-        }
-       
-        counter++; // increase counter 
-        console.warn("counter : " + counter);
-
-        text_box.style.display = "block;"
-        house_text.style.display = "none;"
-        
-        // pick desert_night 
-        if (counter > breakpoint_counter_2 && scene == desert && !scene.is_corrupted) {
-            scene = desert_night;
-        }
-
-        var random_num = Math.floor(Math.random() * scene.phrases.length);
-        console.warn("random num : " + random_num)
-        // console.warn("random_num : " + random_num )
-        let picked_phrase = scene.phrases[random_num]; // pick random phrase
-        console.warn("picked_phrase = " + picked_phrase);
-        // console.warn("picked_phrase : " + picked_phrase )
-        let phrase_length = picked_phrase.length; 
-        console.warn("phrase_length = " + phrase_length);
-        if (scene.phrases.length > 1) scene.phrases.splice(random_num, 1) // remove the phrase so you don't see it again
-        console.warn(scene.phrases);
-
-        setTimeout(() => {
-            if (!scene.is_corrupted) {  fadeIn();  }
-           
-            main_box.insertAdjacentHTML('afterbegin', scene.main_html);
-        
-            setTimeout(() => { 
-                printLetterByLetter('text-replace', picked_phrase, text_speed);
-
-                main_box.querySelector('img').addEventListener('click', function(){
+                    setTimeout(() => { house_text.insertAdjacentHTML('afterbegin', '<p style="text-align: center;">(fin)</p>')}, 40000
+                    );
                     
-                    if (document.querySelector('#text-replace').innerText.length >= (phrase_length-3)) { 
-                        console.warn("click, showNextScene()"); // if phrase is completed
-                        showNextScene();
-                    } else {
-                        stop_message = true;
-                    }
 
+                }, load_speed);
+        break;
+        // SNAKES
+        case scene.snake: 
+            showEnding(scene, true); // ending w snake
+        break;
+        case scene.ending: 
+            showEnding(scene, false); // ending without snake
+            break;
+        default: 
+            // general scenes
+            console.warn(scene)
+            if (!scene.is_corrupted) {
+                audio.swosh.play();
+            }
+        
+            counter++; // increase counter 
+            console.warn("counter : " + counter);
+
+            text_box.style.display = "block;"
+            house_text.style.display = "none;"
+            
+            // pick desert_night 
+            if (counter > breakpoint_counter_2 && scene == desert && !scene.is_corrupted) {
+                scene = desert_night;
+            }
+
+            let random_num = Math.floor(Math.random() * scene.phrases.length);
+            let picked_phrase = scene.phrases[random_num]; // pick random phrase
+            let phrase_length = picked_phrase.length; 
+            
+            if (scene.phrases.length > 1) scene.phrases.splice(random_num, 1) // remove the phrase so you don't see it again
+
+            setTimeout(() => {
+                if (!scene.is_corrupted) {  fadeIn();  }
+            
+                main_box.insertAdjacentHTML('afterbegin', scene.main_html);
+            
+                setTimeout(() => { 
+                    printLetterByLetter('text-replace', picked_phrase, text_speed);
+
+                    main_box.querySelector('img').addEventListener('click', function(){
+                        
+                        if (document.querySelector('#text-replace').innerText.length >= (phrase_length-3)) { 
+                            console.warn("click, showNextScene()"); // if phrase is completed
+                            showNextScene();
+                        } else {
+                            stop_message = true;
+                        }
+
+                    });
                 });
-            });
-        }, load_speed);
-    }
+            }, load_speed);
+            break;
+        }
 }
 
 function showNextScene() {
@@ -245,57 +177,84 @@ function showNextScene() {
     }
 }
 
-function fadeAllAudio(){
-    console.warn('fade out all audio')
-    audio.audio_desert.fade(0.3, 0, 8000);
-    audio.loop1.fade(0.3, 0, 5000);
-    audio.loop2.fade(0.3, 0, 3000);
-    audio.loop1_corrupted.fade(0.3, 0, 3000);
-    audio.loop2_corrupted.fade(0.3, 0, 3000);
+function startGame() {
+    document.querySelector('.credits-wrapper').style.display = "none";
+    audio.audio_desert.play();
+    audio.audio_desert.fade(0, 0.3, 6000)
+    started = true;
 }
 
-function stopAllAudio(){ 
-    console.warn('STOP out all audio')
-    audio.audio_desert.stop();
-    audio.loop1.stop();
-    audio.loop2.stop();
-    audio.loop1_corrupted.stop();
-    audio.loop2_corrupted.stop();
+function showHouseTextandAudio() {
+    fadeIn();
+    // define text and music changes 
+    if (counter > breakpoint_counter_4) {
+        house_text.innerHTML = house_text_arr[4];
+    } else if (counter > breakpoint_counter_3) { 
+        house_text.innerHTML = house_text_arr[3];
+        if (!loop2_faded) { 
+            audio.loop2.fade(0, 0.3, 15000)
+            loop2_faded = true; 
+        };
+    } else if (counter > breakpoint_counter_2) {
+        house_text.innerHTML = house_text_arr[2];
+    } else if (counter > breakpoint_counter_1 ) {
+        if (!audio.loop1.playing()) {
+            audio.loop1.play();
+            audio.loop2.play();
+            audio.loop1.fade(0, 0.3, 12000);
+        }
+        house_text.innerHTML = house_text_arr[1];
+    } else if (counter <= breakpoint_counter_1 ) {
+        house_text.innerHTML = house_text_arr[0];
+    } 
+}
+
+function showEnding(scene, snake) {
+    let picked_phrase = snake ? "Fuiste picado por una serpiente venenosa." :  "¡FELICITACIONES! LOGRASTE SONDEAR LA ESPESURA DE LA NADA.";
+    setTimeout(() => {
+
+        fadeIn(); 
+        if (snake) { 
+            stopAudiowithFade(false)
+        } else {
+        stopAudiowithFade(true)
+        }
+
+        main_box.insertAdjacentHTML('afterbegin', scene.main_html);
+    
+        setTimeout(() => { 
+            printLetterByLetter('text-replace', picked_phrase, text_speed);
+        }, load_speed);
+
+        setTimeout(() => { house_text.insertAdjacentHTML('afterbegin', '<a class="end" onclick="location.reload()">¿Volver a empezar?</a>')}, 4000
+        );
+
+    }, load_speed);
+
+}
+
+
+function stopAudiowithFade(fade){
+    if (fade) { 
+        audio.audio_desert.fade(0.3, 0, 8000);
+        audio.loop1.fade(0.3, 0, 5000);
+        audio.loop2.fade(0.3, 0, 3000);
+        audio.loop1_corrupted.fade(0.3, 0, 3000);
+        audio.loop2_corrupted.fade(0.3, 0, 3000);
+    } else {
+        // if not fade, stop the audio completely
+        audio.audio_desert.stop();
+        audio.loop1.stop();
+        audio.loop2.stop();
+        audio.loop1_corrupted.stop();
+        audio.loop2_corrupted.stop();
+    }  
 }
 
 function showCredits() { 
     document.querySelector('.credits').classList.add('open');
 }
 
-// utility functions 
-function fadeIn() {
-    main_box.insertAdjacentHTML('afterbegin', fade_in);
-    setTimeout(() => main_box.querySelector('.fade-in').classList.add('open'), 10)    
-}
-
-function printLetterByLetter(destination, message, speed){
-    var i = 0;
-    var interval = setInterval(function(){
-        if (stop_message == true) {
-            document.getElementById(destination).innerHTML = message; 
-            stop_message = false; 
-            clearInterval(interval);
-        }  else { 
-            document.getElementById(destination).innerHTML += message.charAt(i);
-            i++;
-            if (i > message.length){
-                clearInterval(interval);
-            }
-        }
-       
-    }, speed);
-}
-
-function removeAllChildNodes(parent) {
-    while (parent.firstChild) {
-        parent.removeChild(parent.firstChild);
-    }
-}
 
 if (!debug_mode) {
     introBar(); 
@@ -327,4 +286,36 @@ function introBar() {
       }
     }
   }
+}
+
+
+// utility functions 
+
+function fadeIn() {
+    main_box.insertAdjacentHTML('afterbegin', fade_in);
+    setTimeout(() => main_box.querySelector('.fade-in').classList.add('open'), 10)    
+}
+
+function printLetterByLetter(destination, message, speed){
+    var i = 0;
+    var interval = setInterval(function(){
+        if (stop_message == true) {
+            document.getElementById(destination).innerHTML = message; 
+            stop_message = false; 
+            clearInterval(interval);
+        }  else { 
+            document.getElementById(destination).innerHTML += message.charAt(i);
+            i++;
+            if (i > message.length){
+                clearInterval(interval);
+            }
+        }
+       
+    }, speed);
+}
+
+function removeAllChildNodes(parent) {
+    while (parent.firstChild) {
+        parent.removeChild(parent.firstChild);
+    }
 }
