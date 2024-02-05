@@ -48,7 +48,6 @@ function showScene(scene) {
         audio.click.play();
     }
     
-    console.warn('showScene()')
     
     removeAllChildNodes(main_box);
     removeAllChildNodes(text_box);
@@ -58,7 +57,6 @@ function showScene(scene) {
     switch (true) {
         case scene.is_house:
             if (scene.is_corrupted) {
-                console.warn('scene_is_corrupted')
                 if (!audio.loop1_corrupted.playing() ) {
                     stopAudiowithFade(false);
                     audio.loop1_corrupted.play();
@@ -117,21 +115,19 @@ function showScene(scene) {
             break;
         default: 
             // general scenes
-            console.warn(scene)
-            if (!scene.is_corrupted) {
-                audio.swosh.play();
-            }
-        
             counter++; // increase counter 
-            console.warn("counter : " + counter);
+
+            if (debug_mode) {
+                console.warn(scene)
+                console.warn("counter : " + counter);
+            }
+            if (!scene.is_corrupted) audio.swosh.play();
 
             text_box.style.display = "block;"
             house_text.style.display = "none;"
             
             // pick desert_night 
-            if (counter > breakpoint_counter_2 && scene == desert && !scene.is_corrupted) {
-                scene = desert_night;
-            }
+            if (counter > breakpoint_counter_2 && scene == desert && !scene.is_corrupted) scene = desert_night;
 
             let random_num = Math.floor(Math.random() * scene.phrases.length);
             let picked_phrase = scene.phrases[random_num]; // pick random phrase
@@ -150,7 +146,6 @@ function showScene(scene) {
                     main_box.querySelector('img').addEventListener('click', function(){
                         
                         if (document.querySelector('#text-replace').innerText.length >= (phrase_length-3)) { 
-                            console.warn("click, showNextScene()"); // if phrase is completed
                             showNextScene();
                         } else {
                             stop_message = true;
@@ -257,14 +252,13 @@ function showCredits() {
 
 
 if (!debug_mode) {
-    introBar(); 
+    showIntro(); 
 } else {
     document.querySelector('.loading').style.display = "none";
     document.querySelector('.main-box').style.display = "block";
 }
 
-function introBar() {
-  console.warn("intro bar. f:= " + f)
+function showIntro() {
   if (f == 0) {
     f = 1;
     var elem = document.getElementById("bar");
@@ -274,7 +268,6 @@ function introBar() {
       if (width >= 100) {
         clearInterval(id);
         f = 0;
-        console.warn("finished;")
         setTimeout(()=> {
             document.querySelector('.loading').style.display = "none";
             document.querySelector('.main-box').style.display = "block";
