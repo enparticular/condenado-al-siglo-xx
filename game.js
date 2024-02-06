@@ -206,6 +206,7 @@ function showHouseTextandAudio() {
 
 function showEnding(scene, snake) {
     let picked_phrase = snake ? "Fuiste picado por una serpiente venenosa." :  "¡FELICITACIONES! LOGRASTE SONDEAR LA ESPESURA DE LA NADA.";
+    let ending_btn = snake ? "¿Seguir Explorando?" : "¿Volver a Empezar?" 
     setTimeout(() => {
 
         fadeIn(); 
@@ -221,7 +222,7 @@ function showEnding(scene, snake) {
             printLetterByLetter('text-replace', picked_phrase, text_speed);
         }, load_speed);
 
-        setTimeout(() => { house_text.insertAdjacentHTML('afterbegin', '<a class="end" onclick="location.reload()">¿Volver a empezar?</a>')}, 4000
+        setTimeout(() => { house_text.insertAdjacentHTML('afterbegin', '<a class="end" onclick="location.reload()">'+ ending_btn +'</a>')}, 4000
         );
 
     }, load_speed);

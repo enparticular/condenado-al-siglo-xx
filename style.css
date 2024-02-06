@@ -140,6 +140,7 @@ a.end {
     display: block;
     text-align: center;
     cursor: pointer;
+    color: #02f9f8; 
 }
 /* .main-box img { cursor: pointer; }
 .main-box img.no-pointer { cursor: default; } */
@@ -242,12 +243,9 @@ a.end {
     background-image: url("img/corrupted/home-computer.gif");
 }
 
-
-
 @media screen and (min-width: 667px) {
     #mobile { display: none; }
     #game { display: block; }
-
 }
 @media screen and (max-width: 666px) {
     #game, .credits-wrapper { display: none; }
@@ -256,7 +254,7 @@ a.end {
         display: block; 
         text-align: center; 
         width: 80vw; 
-        margin: 0 auto  ; 
+        margin: 0 auto; 
         padding: 15px; 
     }
     #mobile img { width: 100%; }
