@@ -56,8 +56,8 @@ a { color: #FFF ; }
     text-align: left; 
     font-size: 25px; 
 }
-.house { display: none;}
-.house.visible { display: block; }
+/* .house-container { display: none;}
+.house-container.visible { display: block; } */
 
 .main-box .link {
     position: absolute; 
@@ -154,6 +154,94 @@ a.end {
     transition: 800ms width;
 }
 .fade-in.open { width: 0; }
+
+.main-img {
+    display: block; 
+    width: 496px; 
+    height: 496px;
+    background-size: 100%;
+}
+/* MAIN IMAGES */
+.main-img.house {
+    background-image: url("img/home.gif");
+}
+.main-img.house-snake {
+    background-image: url("img/home-snake.gif");
+}
+.main-img.house-skull {
+    background-image: url("img/home-skull.gif");
+}
+.main-img.snake {
+    background-image: url("img/snake.gif");
+}
+.main-img.ending {
+    background-image: url("img/ending.gif");
+}
+.main-img.knife {
+    background-image: url("img/knife.gif");
+}
+.main-img.key {
+    background-image: url("img/key.gif");
+}
+.main-img.book {
+    background-image: url("img/book.gif");
+}
+.main-img.spider {
+    background-image: url("img/spider.gif");
+}
+.main-img.desert {
+    background-image: url("img/desert.gif");
+}
+.main-img.desert-night {
+    background-image: url("img/desert-night.gif");
+}
+.main-img.apple {
+    background-image: url("img/apple.gif");
+}
+.main-img.clock {
+    background-image: url("img/clock.gif");
+}
+.main-img.snake {
+    background-image: url("img/snake.gif");
+}
+.main-img.ending {
+    background-image: url("img/ending.gif");
+}
+/* CORRUPTED IMAGES */
+.main-img.corrupted.knife {
+    background-image: url("img/corrupted/knife.gif");
+}
+.main-img.corrupted.key {
+    background-image: url("img/corrupted/key.gif");
+}
+.main-img.corrupted.book {
+    background-image: url("img/corrupted/book.gif");
+}
+.main-img.corrupted.spider {
+    background-image: url("img/corrupted/spider.gif");
+}
+.main-img.corrupted.desert {
+    background-image: url("img/corrupted/desert.gif");
+}
+.main-img.corrupted.desert-night {
+    background-image: url("img/corrupted/desert-night.gif");
+}
+.main-img.corrupted.apple {
+    background-image: url("img/corrupted/apple.gif");
+}
+.main-img.corrupted.clock {
+    background-image: url("img/corrupted/clock.gif");
+}
+.main-img.corrupted.computer {
+    background-image: url("img/corrupted/computer.gif");
+}
+.main-img.corrupted.house {
+    background-image: url("img/corrupted/home.gif");
+}
+.main-img.corrupted.house-computer {
+    background-image: url("img/corrupted/home-computer.gif");
+}
+
 
 
 @media screen and (min-width: 667px) {

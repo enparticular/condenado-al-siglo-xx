@@ -143,7 +143,7 @@ function showScene(scene) {
                 setTimeout(() => { 
                     printLetterByLetter('text-replace', picked_phrase, text_speed);
 
-                    main_box.querySelector('img').addEventListener('click', function(){
+                    main_box.querySelector('.main-img').addEventListener('click', function(){
                         
                         if (document.querySelector('#text-replace').innerText.length >= (phrase_length-3)) { 
                             showNextScene();
