@@ -41,9 +41,23 @@ a { color: #FFF ; }
 .credits-wrapper { width: 500px;  margin:0 auto 40px;  }
 .credits-wrapper p { margin-top: 0; }
 .credits-wrapper .view-credits { color:#ff17ff; cursor:pointer }
-.credits-wrapper .credits { margin-top: 15px; display: none; }
-.credits-wrapper .credits.open { display: block; }
-.credits a { color: #02f9f8; }
+.credits-wrapper .view-credits:hover { color: #FFF; }
+.credits-wrapper .credits {  display: none; }
+.credits-wrapper .credits.open {
+    display: block;
+    padding: 10px;
+    border: 1px dotted white;
+    margin: 0;
+    margin-top: 15px;
+ }
+.credits-wrapper .links { 
+    display: flex;
+    justify-content: space-between;
+    width: 216px;
+    margin-bottom: 18px;
+}
+.credits-wrapper .links a { color: #02f9f8; display:inline-block; }
+.credits-wrapper .links a:hover { color: #FFF; }
 
 .main-box { 
     border: 2px solid #FFF; 
