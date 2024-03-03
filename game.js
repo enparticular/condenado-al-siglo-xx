@@ -1,3 +1,5 @@
+window['optimizely'] = window['optimizely'] || [];
+
 // check debug mode 
 let debug_mode = false;
 if (window.location.href.includes('debug')) { 
@@ -41,11 +43,15 @@ let fade_in = '<div class="fade-in"></div>';
 var f = 0;
 
 function showScene(scene) {
- 
+    
     if (started == false) { 
         startGame(); 
     } else {
         audio.click.play();
+        window['optimizely'].push({
+            type: "event",
+            eventName: "scene_viewed",
+        });
     }
     
     
@@ -61,6 +67,10 @@ function showScene(scene) {
                     stopAudiowithFade(false);
                     audio.loop1_corrupted.play();
                     audio.loop2_corrupted.play();
+                    window['optimizely'].push({
+                        type: "event",
+                        eventName: "corrupted_game_viewed",
+                      });
                 }
             } else {
                 showHouseTextandAudio();
@@ -89,7 +99,10 @@ function showScene(scene) {
         case scene.is_computer :
                         // 
                 setTimeout(() => {
-
+                    window['optimizely'].push({
+                        type: "event",
+                        eventName: "computer_ending",
+                    });
                     fadeIn(); 
                     stopAudiowithFade(false);
 
@@ -109,9 +122,17 @@ function showScene(scene) {
         // SNAKES
         case scene.snake: 
             showEnding(scene, true); // ending w snake
+            window['optimizely'].push({
+                type: "event",
+                eventName: "snake_ending",
+              });
         break;
         case scene.ending: 
             showEnding(scene, false); // ending without snake
+            window['optimizely'].push({
+                type: "event",
+                eventName: "death_ending",
+              });
             break;
         default: 
             // general scenes
@@ -207,6 +228,7 @@ function showHouseTextandAudio() {
 function showEnding(scene, snake) {
     let picked_phrase = snake ? "Fuiste picado por una serpiente venenosa." :  "¡FELICITACIONES! LOGRASTE SONDEAR LA ESPESURA DE LA NADA.";
     let ending_btn = snake ? "¿Seguir Explorando?" : "¿Volver a Empezar?" 
+    let amount_endings = snake ? "(final 1 de 3)" : "(final 2 de 3)";
     setTimeout(() => {
 
         fadeIn(); 
@@ -222,7 +244,7 @@ function showEnding(scene, snake) {
             printLetterByLetter('text-replace', picked_phrase, text_speed);
         }, load_speed);
 
-        setTimeout(() => { house_text.insertAdjacentHTML('afterbegin', '<a class="end" onclick="location.reload()">'+ ending_btn +'</a>')}, 4000
+        setTimeout(() => { house_text.insertAdjacentHTML('afterbegin', '<a class="end" onclick="location.reload()">'+ ending_btn +'</a><p class="ending">' + amount_endings + '</p>')}, 4000
         );
 
     }, load_speed);

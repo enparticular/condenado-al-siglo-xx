@@ -89,6 +89,11 @@ p.house-text  {
     margin: 0;
     font-size: 24px;
 }
+p.house-text .ending {
+    text-align: left;
+    font-size: 16px;
+    display:none; 
+}
 p.hover-text {
     margin-top: 5px;
     color: #ff17ff;
