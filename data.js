@@ -1,5 +1,5 @@
 // house text
-let house_text_arr = ["estás solo en tu habitación.",
+let house_text_arr = ["estás solo en tu habitación. A tu alrededor hay un desierto.",
 "ESTÁS SOLO EN TU HABITACIÓN. TODA TU ROPA ES BLANCA Y ESTÁ MANCHADA.",
 "ESTÁS SOLO EN TU HABITACIÓN, BATIENDO RÉCORDS DE SOLEDAD.",
 "ESTÁS EN TU HABITACIÓN EN COMPAÑÍA DE UNA SERPIENTE VENENOSA",
